@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Europress SMART Material Value Engine — Weigh at Source, Create Value</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            epred: '#E30613',
+            epdark: '#0B1120',
+            epcard: '#111827',
+            epborder: '#1F2937'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0B1120; color: #F3F4F6; font-family: system-ui, -apple-system, sans-serif; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .tab-active { border-bottom: 3px solid #E30613; color: #FFFFFF; background: rgba(227, 6, 19, 0.12); }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0B1120; }
+    ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- TOP COMPLIANCE & SYNTHETIC DATA BANNER -->
+  <div class="bg-amber-950/80 border-b border-amber-700/60 px-4 py-2 text-xs text-amber-200 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
+      <span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 font-semibold text-amber-300 uppercase tracking-wider">Synthetic Evaluation Dataset</span>
+      <span><strong>Role Boundary:</strong> Europress is currently not a party to waste transport or treatment contracts. All tariffs, processing fees, and material credits are hypothetical customer–operator illustrations.</span>
+    </div>
+    <div class="font-semibold text-emerald-300">
+      Human-in-the-Loop Enforced: All schedule &amp; contract actions require explicit manager approval.
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="bg-slate-900/90 border-b border-slate-800 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-4">
+      <div class="w-11 h-11 rounded-lg bg-epred flex items-center justify-center font-black text-white text-xl shadow-lg shadow-red-900/40">EP</div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-xl font-bold tracking-tight text-white">EUROPRESS <span class="text-epred">SMART</span> Material Value Engine</h1>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 mono">v1.0.1 Competition Fleet</span>
+        </div>
+        <p class="text-xs text-slate-400 mt-0.5">Weigh at Source &bull; Empty Only When Truly Full &bull; Break the 30-Day Operator Weight Blackout</p>
+      </div>
+    </div>
+
+    <!-- FLEET KPI PILLS -->
+    <div class="flex flex-wrap items-center gap-3 text-xs">
+      <div class="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1.5">
+        <div class="text-slate-400">Fleet Audited</div>
+        <div class="font-bold text-white mono text-sm">447 Devices / 52 Customers</div>
+      </div>
+      <div class="bg-slate-800/90 border border-slate-700 rounded-lg px-3 py-1.5">
+        <div class="text-slate-400">Unshared / Delayed Tickets</div>
+        <div class="font-bold text-amber-400 mono text-sm" id="kpi-blackout">4,908 (26.6%) + 2,991 (&gt;7d)</div>
+      </div>
+      <div class="bg-slate-800/90 border border-emerald-800/60 rounded-lg px-3 py-1.5">
+        <div class="text-slate-400">Identified / Realisable Value</div>
+        <div class="font-bold text-emerald-400 mono text-sm">€1,196,422 / €815,914 yr</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAVIGATION TABS -->
+  <nav class="bg-slate-900/60 border-b border-slate-800 px-6 flex overflow-x-auto text-sm font-medium text-slate-400">
+    <button onclick="switchTab('tab-optimizer')" id="btn-tab-optimizer" class="px-5 py-3.5 hover:text-white transition tab-active flex items-center gap-2 whitespace-nowrap">
+      <span>1. "Empty When Truly Full" &amp; Day-0 Ledger</span>
+      <span class="text-[11px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-300 mono">S39 &amp; S40 Guard</span>
+    </button>
+    <button onclick="switchTab('tab-hardware')" id="btn-tab-hardware" class="px-5 py-3.5 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+      <span>2. 2-Tier Weighing Hardware &amp; Accuracy Curve</span>
+      <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 mono">€74 / €192 BOM</span>
+    </button>
+    <button onclick="switchTab('tab-audit')" id="btn-tab-audit" class="px-5 py-3.5 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+      <span>3. Row-Level Contract &amp; Invoice Audit Trail</span>
+      <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 mono">99.37% Exact</span>
+    </button>
+    <button onclick="switchTab('tab-scorecards')" id="btn-tab-scorecards" class="px-5 py-3.5 hover:text-white transition flex items-center gap-2 whitespace-nowrap">
+      <span>4. Operator Scorecards, Approval Queue &amp; Benchmarks</span>
+      <span class="text-[11px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 mono">Human-in-Loop</span>
+    </button>
+  </nav>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="flex-1 p-6 max-w-[1600px] w-full mx-auto space-y-6">
+
+    <!-- ===================================================================== -->
+    <!-- TAB 1: EMPTY ONLY WHEN TRULY FULL OPTIMIZER & DAY-0 RECEIPT LEDGER    -->
+    <!-- ===================================================================== -->
+    <section id="tab-optimizer" class="space-y-6">
+      <!-- Top Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Volume vs. True Weight Fill at Pickup</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-amber-400 mono" id="stat-vol-fill">72.2%</span>
+            <span class="text-xs text-slate-400">vol vs</span>
+            <span class="text-2xl font-bold text-red-400 mono" id="stat-wt-fill">64.6%</span>
+            <span class="text-xs text-slate-400">true mass</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Across 18,477 completed lifts, platen volume overstates true compacted payload by +7.6%.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400 uppercase font-semibold">S40 Bridging False-Full Calls</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-white mono" id="stat-s40-cnt">199 lifts</span>
+            <span class="text-sm font-semibold text-emerald-400 mono" id="stat-s40-eur">€36,222 savable</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Volume sensor reads 88–97% full due to cardboard bridging while mass is &lt;39% of capacity.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400 uppercase font-semibold">S39 Friday / Holiday Panic Calls</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-white mono" id="stat-s39-cnt">523 lifts</span>
+            <span class="text-sm font-semibold text-emerald-400 mono" id="stat-s39-eur">€79,676 savable</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Customer orders pickup at &lt;40% fill before weekend; lead-time mass forecast proves safe to wait.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+          <div class="text-xs text-slate-400 uppercase font-semibold">30–45 Day Operator Ticket Lag</div>
+          <div class="mt-2 flex items-baseline gap-2">
+            <span class="text-2xl font-bold text-amber-400 mono">4,908 unshared</span>
+            <span class="text-xs text-slate-400">max lag 116.8d</span>
+          </div>
+          <p class="text-xs text-slate-400 mt-1">Day-0 Source-Weight Receipt eliminates blind waiting for OP-C (10–45d lag) &amp; OP-D (0% shared).</p>
+        </div>
+      </div>
+
+      <!-- Device Selector + Live Dual-Gauge & Interactive Simulator -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left Column: Compactor Selector List (4 cols) -->
+        <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col h-[640px]">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-bold text-white text-sm uppercase tracking-wider">Select Fleet Compactor (COMBI &amp; DUO)</h2>
+            <span class="text-xs text-slate-400 mono">12 Showcase Units</span>
+          </div>
+          <div id="compactor-list" class="space-y-2 overflow-y-auto pr-1 flex-1"></div>
+        </div>
+
+        <!-- Right Column: Live Compactor Telemetry, Dual Fill vs Mass Gauge & Pickup Simulator (8 cols) -->
+        <div class="lg:col-span-8 space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5">
+            <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span id="sel-dev-id" class="text-lg font-bold text-white mono">CMP-00001</span>
+                  <span id="sel-dev-class" class="px-2 py-0.5 text-xs font-bold rounded bg-red-600/20 border border-red-500/40 text-red-300 mono">COMBI 20m³</span>
+                  <span id="sel-dev-mat" class="px-2 py-0.5 text-xs font-semibold rounded bg-slate-800 text-slate-200 mono">cardboard</span>
+                  <span id="sel-dev-pol" class="px-2 py-0.5 text-xs rounded bg-slate-800 text-slate-400 mono">ON_CALL</span>
+                </div>
+                <p id="sel-dev-meta" class="text-xs text-slate-400 mt-1">Customer &bull; Site &bull; Operator</p>
+              </div>
+              <div class="text-right">
+                <div class="text-[11px] text-slate-400 uppercase">Recommended Hardware Kit</div>
+                <div id="sel-dev-tier" class="text-xs font-bold text-emerald-400 mono mt-0.5">Tier 2: SMART-Weight Verify (€192 BOM, ±2.6%)</div>
+              </div>
+            </div>
+
+            <!-- Live Status Banner -->
+            <div id="sel-status-banner" class="p-3.5 rounded-lg border border-amber-500/40 bg-amber-950/40 text-amber-200 text-xs leading-relaxed font-medium"></div>
+
+            <!-- Side-by-Side Gauges: Platen Volume Fill (%) vs. True Source Weight Fill (%) vs. Effective Bulk Density -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5">
+                <div class="flex justify-between text-xs text-slate-400">
+                  <span>Legacy Volume Fill Sensor</span>
+                  <span class="mono text-amber-400 font-bold" id="gauge-vol-txt">91.4%</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full mt-2 overflow-hidden">
+                  <div id="gauge-vol-bar" class="bg-amber-500 h-full rounded-full transition-all duration-300" style="width: 91%"></div>
+                </div>
+                <div class="text-[11px] text-slate-500 mt-1.5">Fooled by cardboard arching / air pockets (S40)</div>
+              </div>
+
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5">
+                <div class="flex justify-between text-xs text-slate-400">
+                  <span>SMART Source Payload Mass</span>
+                  <span class="mono text-emerald-400 font-bold" id="gauge-mass-txt">1,420 kg / 3,496 kg</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full mt-2 overflow-hidden">
+                  <div id="gauge-mass-bar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 41%"></div>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1.5 flex justify-between">
+                  <span id="gauge-truepct-txt">True Commercial Fill: 40.6%</span>
+                  <span id="gauge-unc-txt" class="mono text-slate-500">±18 kg (1σ)</span>
+                </div>
+              </div>
+
+              <div class="bg-slate-950/80 border border-slate-800 rounded-lg p-3.5">
+                <div class="flex justify-between text-xs text-slate-400">
+                  <span>Effective Bulk Density (&rho;<sub>eff</sub>)</span>
+                  <span class="mono text-cyan-400 font-bold" id="gauge-rho-txt">78 kg/m³</span>
+                </div>
+                <div class="w-full bg-slate-800 h-3 rounded-full mt-2 overflow-hidden">
+                  <div id="gauge-rho-bar" class="bg-cyan-500 h-full rounded-full transition-all duration-300" style="width: 45%"></div>
+                </div>
+                <div class="text-[11px] text-slate-400 mt-1.5" id="gauge-nomrho-txt">Nominal compacted density: 190 kg/m³</div>
+              </div>
+            </div>
+
+            <!-- Interactive "Should I Call the Hauler?" Simulator -->
+            <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-sm font-bold text-white">Interactive "Empty Only When Truly Full" Decision Simulator</h3>
+                  <p class="text-xs text-slate-400">Test how combining Source Weight (kg) + Volume Fill (%) + Hauler Lead Time stops S40 Bridging &amp; S39 Weekend Panic calls.</p>
+                </div>
+                <div class="flex gap-2">
+                  <button onclick="presetSimulator('S40')" class="px-2.5 py-1 rounded bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs hover:bg-amber-500/30">Simulate S40 Bridging</button>
+                  <button onclick="presetSimulator('S39')" class="px-2.5 py-1 rounded bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs hover:bg-blue-500/30">Simulate S39 Friday Panic</button>
+                  <button onclick="presetSimulator('FULL')" class="px-2.5 py-1 rounded bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs hover:bg-emerald-500/30">Simulate 94% Max Payload</button>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                <div>
+                  <label class="text-slate-400 flex justify-between"><span>Volume Fill (%)</span><span id="sim-vol-val" class="mono text-white">92%</span></label>
+                  <input type="range" id="sim-vol" min="15" max="99" value="92" oninput="runPickupSim()" class="w-full mt-1 accent-epred" />
+                </div>
+                <div>
+                  <label class="text-slate-400 flex justify-between"><span>Source Weight (kg)</span><span id="sim-mass-val" class="mono text-white">1250 kg</span></label>
+                  <input type="range" id="sim-mass" min="200" max="6500" step="50" value="1250" oninput="runPickupSim()" class="w-full mt-1 accent-epred" />
+                </div>
+                <div>
+                  <label class="text-slate-400 flex justify-between"><span>Hauler Lead Time (h)</span><span id="sim-lead-val" class="mono text-white">21h</span></label>
+                  <input type="range" id="sim-lead" min="4" max="48" value="21" oninput="runPickupSim()" class="w-full mt-1 accent-epred" />
+                </div>
+                <div class="flex flex-col justify-center">
+                  <label class="inline-flex items-center gap-2 cursor-pointer mt-2">
+                    <input type="checkbox" id="sim-weekend" onchange="runPickupSim()" class="rounded bg-slate-800 border-slate-700 text-epred" />
+                    <span class="text-slate-300 font-medium">Friday Afternoon / Pre-Holiday?</span>
+                  </label>
+                </div>
+              </div>
+
+              <div id="sim-result-box" class="p-3.5 rounded-lg bg-slate-900 border border-slate-700 flex flex-wrap items-center justify-between gap-4">
+                <div class="space-y-1 max-w-2xl">
+                  <div id="sim-verdict-title" class="text-sm font-bold text-amber-400">HOLD PICKUP ORDER — Bridging Detected</div>
+                  <div id="sim-verdict-desc" class="text-xs text-slate-300">Adjust sliders above to test real-time pickup recommendations.</div>
+                </div>
+                <div class="text-right mono">
+                  <div class="text-xs text-slate-400">Avoidable Premature Haul Cost</div>
+                  <div id="sim-saved-eur" class="text-lg font-bold text-emerald-400">€112 saved</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Day-0 Source-Weight Receipt Ledger vs Operator Weighbridge Lag -->
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="text-sm font-bold text-white">Day-0 Source-Weight Receipt Ledger vs. Operator Weighbridge Delay</h3>
+                <p class="text-xs text-slate-400">Every lift generates an instant source-weight receipt at t=0s, protecting the customer when operator tickets are unshared (OP-D) or delayed 15–45 days (OP-C).</p>
+              </div>
+              <span class="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 mono">Recent Lifts on Selected Device</span>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead class="text-slate-400 border-b border-slate-800 uppercase">
+                  <tr>
+                    <th class="py-2 px-2">Date</th>
+                    <th class="py-2 px-2">Collection ID</th>
+                    <th class="py-2 px-2">Trigger / Scenario</th>
+                    <th class="py-2 px-2 text-right">Vol Fill</th>
+                    <th class="py-2 px-2 text-right">Day-0 Source kg</th>
+                    <th class="py-2 px-2 text-right">Weighbridge kg</th>
+                    <th class="py-2 px-2 text-center">Operator Ticket Status</th>
+                    <th class="py-2 px-2 text-right">Haul Cost</th>
+                    <th class="py-2 px-2 text-right">Material Credit</th>
+                  </tr>
+                </thead>
+                <tbody id="device-lift-tbody" class="divide-y divide-slate-800/70 mono"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 2: 2-TIER WEIGHING HARDWARE & ACCURACY-TO-VALUE CURVE             -->
+    <!-- ===================================================================== -->
+    <section id="tab-hardware" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- SVG Schematic Viewer (7 cols) -->
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-white">Deliverable (1): Universal Modular Weighing Architecture (`COMBI` &amp; `DUO`)</h2>
+              <p class="text-xs text-slate-400">Zero container electronics on detachable `DUO` bins (`≤30 m³`); drop-in rear shear pins on `COMBI` (`≤22 m³`).</p>
+            </div>
+            <a href="/diagrams/combi_duo_schematics.svg" target="_blank" class="text-xs px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">Open Full SVG &nearr;</a>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-2 overflow-x-auto">
+            <img src="/diagrams/combi_duo_schematics.svg" alt="Europress COMBI and DUO Weighing Architecture Schematic" class="w-full h-auto rounded" />
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800">
+              <div class="font-bold text-white flex justify-between"><span>Tier 1: SMART-Weight Lite</span><span class="text-emerald-400 mono">€74 OEM BOM (±4.5%)</span></div>
+              <p class="text-slate-400 mt-1">Bolt-on chassis strain gauge + hydraulic pressure-over-stroke work integral + 3-axis MEMS pitch/tilt compensation. 35-min field retrofit, zero crane needed.</p>
+            </div>
+            <div class="p-3.5 rounded-lg bg-slate-950 border border-red-900/50">
+              <div class="font-bold text-white flex justify-between"><span>Tier 2: SMART-Weight Verify</span><span class="text-epred mono">€192 OEM BOM (±2.6%)</span></div>
+              <p class="text-slate-400 mt-1"><strong>COMBI:</strong> 2× rear roller dual-shear pins + 2× front elastomer pucks. <strong>DUO:</strong> Stationary rear wheel-pocket pads + locking-hook clevis shear-pins (solves clamp load-bridging).</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Accuracy-to-Value Simulator (5 cols) -->
+        <div class="lg:col-span-5 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-5">
+          <div>
+            <h2 class="text-base font-bold text-white">Empirical Accuracy-to-Value Curve (10,342 Lifts)</h2>
+            <p class="text-xs text-slate-400 mt-1">Slide the sensor 1&sigma; error to see why ±1.3% 1&sigma; (±2.6% at 95% confidence) captures <strong>99.2%</strong> of the value of a €3,800 scale at <strong>5% of the cost</strong>.</p>
+          </div>
+
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+            <label class="text-xs text-slate-300 font-semibold flex justify-between">
+              <span>Select Sensor Relative Error (1&sigma;):</span>
+              <span id="acc-slider-label" class="mono text-epred font-bold">1.3% (Tier 2: SMART-Weight Verify)</span>
+            </label>
+            <input type="range" id="acc-slider" min="0" max="7" step="1" value="2" oninput="updateAccuracyCard()" class="w-full accent-epred" />
+            <div class="grid grid-cols-2 gap-3 pt-2">
+              <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                <div class="text-[11px] text-slate-400">Within ±100 kg of Weighbridge</div>
+                <div id="acc-within100" class="text-xl font-bold text-emerald-400 mono mt-0.5">99.2%</div>
+              </div>
+              <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                <div class="text-[11px] text-slate-400">Detects 10% Overbilling</div>
+                <div id="acc-detect10" class="text-xl font-bold text-white mono mt-0.5">95.0%</div>
+              </div>
+              <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                <div class="text-[11px] text-slate-400">Median / p95 €/t Error</div>
+                <div id="acc-cpterr" class="text-lg font-bold text-cyan-400 mono mt-0.5">0.98% / 3.68%</div>
+              </div>
+              <div class="p-3 rounded bg-slate-900 border border-slate-800">
+                <div class="text-[11px] text-slate-400">False Alarm Rate / OEM BOM</div>
+                <div id="acc-fp-bom" class="text-lg font-bold text-amber-400 mono mt-0.5">0.90% / €192</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Full Comparison Table -->
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="text-slate-400 border-b border-slate-800 uppercase">
+                <tr>
+                  <th class="py-2 px-2">1&sigma; Error</th>
+                  <th class="py-2 px-2">Hardware Architecture</th>
+                  <th class="py-2 px-2 text-right">≤100kg</th>
+                  <th class="py-2 px-2 text-right">Detects +10%</th>
+                  <th class="py-2 px-2 text-right">False Alarm</th>
+                  <th class="py-2 px-2 text-right">BOM</th>
+                </tr>
+              </thead>
+              <tbody id="accuracy-tbody" class="divide-y divide-slate-800/70 mono"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 3: ROW-LEVEL CONTRACT & INVOICE AUDIT TRAIL EXPLORER              -->
+    <!-- ===================================================================== -->
+    <section id="tab-audit" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-xl p-5">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div>
+              <h2 class="text-base font-bold text-white">Traceable Invoice &amp; Collection Discrepancy Audit (Tasks A, B, E)</h2>
+              <p class="text-xs text-slate-400">Click any row to inspect the exact cent-by-cent contract reconstruction formula and data provenance badge.</p>
+            </div>
+            <select id="audit-filter" onchange="renderAuditTable()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-200">
+              <option value="ALL">All Flagged Discrepancies (Top 40 by EUR)</option>
+              <option value="WEIGHT_BASIS_MISMATCH">WEIGHT_BASIS_MISMATCH (Source/Ticket vs Invoice Tonnage)</option>
+              <option value="OUTDATED_TARIFF">OUTDATED_TARIFF (Superseded Contract Version Used)</option>
+              <option value="DUPLICATE_LINE">DUPLICATE_LINE (Double-Billed Job Line)</option>
+              <option value="WRONG_SURCHARGE">WRONG_SURCHARGE (Uncontracted Fuel/Remote Fee)</option>
+            </select>
+          </div>
+          <div class="overflow-x-auto max-h-[540px]">
+            <table class="w-full text-left text-xs">
+              <thead class="text-slate-400 border-b border-slate-800 uppercase sticky top-0 bg-slate-900">
+                <tr>
+                  <th class="py-2 px-2">Invoice Line</th>
+                  <th class="py-2 px-2">Operator / Contract</th>
+                  <th class="py-2 px-2">Line Type</th>
+                  <th class="py-2 px-2">Anomaly Family</th>
+                  <th class="py-2 px-2 text-right">Billed EUR</th>
+                  <th class="py-2 px-2 text-right">Expected EUR</th>
+                  <th class="py-2 px-2 text-right">Overcharge</th>
+                </tr>
+              </thead>
+              <tbody id="audit-tbody" class="divide-y divide-slate-800/70 mono"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Right Drawer: Cent-by-Cent Formula Proof (4 cols) -->
+        <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Cent-by-Cent Audit Proof</h3>
+            <span id="proof-badge" class="px-2 py-0.5 text-[11px] rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 mono">OBSERVED</span>
+          </div>
+          <div id="proof-content" class="space-y-3 text-xs">
+            <p class="text-slate-400">Select any invoice line on the left to inspect its full contract reconstruction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- TAB 4: OPERATOR SCORECARDS, HUMAN APPROVAL QUEUE & BENCHMARK MASTERY  -->
+    <!-- ===================================================================== -->
+    <section id="tab-scorecards" class="hidden space-y-6">
+      <!-- Neutral Regional Operator Scorecards -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div>
+            <h2 class="text-base font-bold text-white">Neutral Operator Performance &amp; Transparency Scorecard (Task B2 — Score: 77.28 vs B5 67.75)</h2>
+            <p class="text-xs text-slate-400">Deconvolves device sensor drift from truck stored-tare discrepancies and includes monthly RENTAL in billing denominators.</p>
+          </div>
+          <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 mono">Fact-Based &bull; Neutral Tone</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="text-slate-400 border-b border-slate-800 uppercase">
+              <tr>
+                <th class="py-2 px-3">Operator</th>
+                <th class="py-2 px-3">Active Regions</th>
+                <th class="py-2 px-3 text-right">On-Time (±2h)</th>
+                <th class="py-2 px-3 text-right">Missed Visits</th>
+                <th class="py-2 px-3 text-right">Med Order-to-Lift</th>
+                <th class="py-2 px-3 text-right">Ticket Shared ≤7d</th>
+                <th class="py-2 px-3 text-right">Med Ticket Lag</th>
+                <th class="py-2 px-3 text-right">Billing Overcharge</th>
+                <th class="py-2 px-3 text-right">Deconvolved Weight Bias</th>
+              </tr>
+            </thead>
+            <tbody id="scorecard-tbody" class="divide-y divide-slate-800/70 mono"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Human-in-the-Loop Action Approval Queue + Portfolio Levers -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div class="lg:col-span-7 bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="text-base font-bold text-white">Human-in-the-Loop Contract &amp; Operational Action Queue (Tasks C &amp; C2)</h3>
+              <p class="text-xs text-slate-400">Every recommendation is a draft proposal with explicit reversal path. Click Approve, Defer, or Reverse to log your decision.</p>
+            </div>
+            <span id="queue-counter" class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 mono">24 Proposals</span>
+          </div>
+          <div id="approval-list" class="space-y-3 max-h-[460px] overflow-y-auto pr-1"></div>
+        </div>
+
+        <!-- Right Column: Portfolio Levers & Official Benchmark Comparison (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Portfolio Value Levers (52 Customers, 447 Devices)</h3>
+            <div id="lever-bars" class="space-y-2.5 text-xs"></div>
+          </div>
+
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 space-y-3">
+            <h3 class="text-sm font-bold text-white uppercase tracking-wider">Official Benchmark Evaluation (`europress_data.evaluate`)</h3>
+            <table class="w-full text-left text-xs mono">
+              <thead class="text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="py-1.5">Task / Metric</th>
+                  <th class="py-1.5 text-right">Baseline</th>
+                  <th class="py-1.5 text-right text-emerald-400">Ours</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800/70">
+                <tr><td class="py-1.5">Task A: Net Exact-to-Cent Share</td><td class="text-right text-slate-400">96.35%</td><td class="text-right font-bold text-emerald-400">99.37%</td></tr>
+                <tr><td class="py-1.5">Task B: Macro-F1 (Trap FPs)</td><td class="text-right text-slate-400">0.7309 (117)</td><td class="text-right font-bold text-emerald-400">0.7638 (52)</td></tr>
+                <tr><td class="py-1.5">Task B: PREMATURE / CONTAM F1</td><td class="text-right text-slate-400">0.716 / 0.763</td><td class="text-right font-bold text-emerald-400">0.865 / 0.997</td></tr>
+                <tr><td class="py-1.5">Task B2: Operator Scorecard (0–100)</td><td class="text-right text-slate-400">67.75</td><td class="text-right font-bold text-emerald-400">77.28</td></tr>
+                <tr><td class="py-1.5">Task C: Acceptable / Impermissible</td><td class="text-right text-slate-400">58.1% / 10.3%</td><td class="text-right font-bold text-emerald-400">67.9% / 1.7%</td></tr>
+                <tr><td class="py-1.5">Task C2: Mean Regret / Value Capture</td><td class="text-right text-slate-400">€240.07 / 77.4%</td><td class="text-right font-bold text-emerald-400">€3.46 / 99.7%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let STATE = { overview: null, compactors: [], selectedDevice: null, auditRows: [], scorecards: [], queue: [] };
+
+    function switchTab(tabId) {
+      ['tab-optimizer', 'tab-hardware', 'tab-audit', 'tab-scorecards'].forEach(id => {
+        document.getElementById(id).classList.toggle('hidden', id !== tabId);
+        document.getElementById('btn-' + id).classList.toggle('tab-active', id === tabId);
+      });
+    }
+
+    async function initCockpit() {
+      const [ov, comps, audit, sc, q] = await Promise.all([
+        fetch('/api/overview').then(r => r.json()),
+        fetch('/api/compactors').then(r => r.json()),
+        fetch('/api/audit_trail').then(r => r.json()),
+        fetch('/api/scorecards').then(r => r.json()),
+        fetch('/api/approval_queue').then(r => r.json())
+      ]);
+      STATE = { overview: ov, compactors: comps, selectedDevice: comps[0], auditRows: audit, scorecards: sc, queue: q };
+      renderCompactorList();
+      selectCompactor(comps[0].device_id);
+      renderAccuracyTable();
+      updateAccuracyCard();
+      renderAuditTable();
+      if (audit.length) showAuditProof(0);
+      renderScorecards();
+      renderApprovalQueue();
+      renderPortfolioLevers();
+    }
+
+    function renderCompactorList() {
+      const el = document.getElementById('compactor-list');
+      el.innerHTML = STATE.compactors.map(c => {
+        const active = STATE.selectedDevice && STATE.selectedDevice.device_id === c.device_id;
+        const badgeColor = c.live_state.mode === 'S40_BRIDGING_ALERT' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                         : c.live_state.mode === 'S39_WEEKEND_SAFE' ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                         : 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
+        const modeShort = c.live_state.mode === 'S40_BRIDGING_ALERT' ? 'S40 BRIDGING HOLD'
+                        : c.live_state.mode === 'S39_WEEKEND_SAFE' ? 'S39 WEEKEND GUARD'
+                        : 'OPTIMAL TRACKING';
+        return `
+          <div onclick="selectCompactor('${c.device_id}')" class="p-3 rounded-lg border cursor-pointer transition ${active ? 'bg-slate-800 border-epred' : 'bg-slate-950/70 border-slate-800 hover:border-slate-700'}">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white mono text-xs">${c.device_id}</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 mono">${c.equipment_class} ${c.container_volume_m3}m³</span>
+                <span class="text-[11px] text-slate-400 mono">${c.material_stream}</span>
+              </div>
+              <span class="text-[10px] px-2 py-0.5 rounded border font-semibold mono ${badgeColor}">${modeShort}</span>
+            </div>
+            <div class="flex justify-between items-center mt-2 text-xs text-slate-400">
+              <span class="truncate max-w-[180px]">${c.customer_name} (${c.municipality})</span>
+              <span class="mono text-slate-200">Vol ${c.live_state.volume_fill_pct}% | Mass ${c.live_state.true_weight_fill_pct}%</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectCompactor(devId) {
+      const c = STATE.compactors.find(x => x.device_id === devId);
+      if (!c) return;
+      STATE.selectedDevice = c;
+      renderCompactorList();
+
+      document.getElementById('sel-dev-id').textContent = c.device_id;
+      document.getElementById('sel-dev-class').textContent = `${c.equipment_class} ${c.container_volume_m3}m³`;
+      document.getElementById('sel-dev-mat').textContent = c.material_stream;
+      document.getElementById('sel-dev-pol').textContent = `${c.collection_policy} • ${c.pricing_model}`;
+      document.getElementById('sel-dev-meta').textContent = `${c.customer_name} • ${c.site_name} (${c.municipality}, ${c.region_code}) • Operator: ${c.operator_name} (${c.operator_id})`;
+      document.getElementById('sel-dev-tier').textContent = c.recommended_hardware_tier;
+
+      const sb = document.getElementById('sel-status-banner');
+      sb.textContent = c.live_state.status_banner;
+      sb.className = c.live_state.mode === 'S40_BRIDGING_ALERT'
+        ? 'p-3.5 rounded-lg border border-amber-500/50 bg-amber-950/50 text-amber-200 text-xs leading-relaxed font-medium'
+        : c.live_state.mode === 'S39_WEEKEND_SAFE'
+        ? 'p-3.5 rounded-lg border border-blue-500/50 bg-blue-950/50 text-blue-200 text-xs leading-relaxed font-medium'
+        : 'p-3.5 rounded-lg border border-emerald-500/50 bg-emerald-950/40 text-emerald-200 text-xs leading-relaxed font-medium';
+
+      document.getElementById('gauge-vol-txt').textContent = `${c.live_state.volume_fill_pct}%`;
+      document.getElementById('gauge-vol-bar').style.width = `${Math.min(100, c.live_state.volume_fill_pct)}%`;
+      document.getElementById('gauge-mass-txt').textContent = `${c.live_state.current_mass_kg} / ${c.live_state.target_payload_kg} kg`;
+      document.getElementById('gauge-mass-bar').style.width = `${Math.min(100, c.live_state.true_weight_fill_pct)}%`;
+      document.getElementById('gauge-truepct-txt').textContent = `True Weight Fill: ${c.live_state.true_weight_fill_pct}%`;
+      document.getElementById('gauge-unc-txt').textContent = `±${c.live_state.mass_uncertainty_kg} kg (1σ)`;
+      document.getElementById('gauge-rho-txt').textContent = `${c.live_state.effective_density_kg_m3} kg/m³`;
+      const rhoPct = Math.min(100, Math.round(100 * c.live_state.effective_density_kg_m3 / c.live_state.nominal_density_kg_m3));
+      document.getElementById('gauge-rho-bar').style.width = `${rhoPct}%`;
+      document.getElementById('gauge-nomrho-txt').textContent = `Nominal compacted density: ${c.live_state.nominal_density_kg_m3} kg/m³ (${rhoPct}% ratio)`;
+
+      // Set simulator sliders to match device live state
+      document.getElementById('sim-vol').value = Math.round(c.live_state.volume_fill_pct);
+      document.getElementById('sim-mass').max = Math.round(c.live_state.target_payload_kg * 1.15);
+      document.getElementById('sim-mass').value = Math.round(c.live_state.current_mass_kg);
+      document.getElementById('sim-weekend').checked = (c.live_state.mode === 'S39_WEEKEND_SAFE');
+      runPickupSim();
+
+      // Render lift table
+      const tbody = document.getElementById('device-lift-tbody');
+      tbody.innerHTML = c.lift_history.slice().reverse().map(l => {
+        const lagBadge = !l.ticket_shared
+          ? `<span class="px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30">UNSHARED (0% Ticket)</span>`
+          : l.ticket_lag_days > 7
+          ? `<span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Delayed +${l.ticket_lag_days}d</span>`
+          : `<span class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Shared (${l.ticket_lag_days}d)</span>`;
+        const mechBadge = l.premature_mechanism !== 'NORMAL_OR_JUSTIFIED'
+          ? `<span class="text-amber-300 font-semibold">${l.premature_mechanism} (-€${l.avoidable_cost_eur})</span>`
+          : `<span class="text-slate-400">${l.trigger_type}</span>`;
+        return `
+          <tr class="hover:bg-slate-800/40">
+            <td class="py-2 px-2 text-slate-300">${l.date}</td>
+            <td class="py-2 px-2 text-white font-medium">${l.collection_id}</td>
+            <td class="py-2 px-2">${mechBadge}</td>
+            <td class="py-2 px-2 text-right text-amber-300">${l.volume_fill_pct}%</td>
+            <td class="py-2 px-2 text-right text-emerald-400 font-bold">${l.source_collected_kg !== null ? l.source_collected_kg + ' kg' : 'N/A'}</td>
+            <td class="py-2 px-2 text-right text-slate-300">${l.operator_weighbridge_kg !== null ? l.operator_weighbridge_kg + ' kg' : '—'}</td>
+            <td class="py-2 px-2 text-center">${lagBadge}</td>
+            <td class="py-2 px-2 text-right text-slate-200">€${l.collection_cost_eur.toFixed(2)}</td>
+            <td class="py-2 px-2 text-right text-emerald-400">${l.material_credit_eur > 0 ? '+€' + l.material_credit_eur.toFixed(2) : '€0.00'}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function presetSimulator(mode) {
+      const c = STATE.selectedDevice;
+      if (!c) return;
+      if (mode === 'S40') {
+        document.getElementById('sim-vol').value = 93;
+        document.getElementById('sim-mass').value = Math.round(c.live_state.target_payload_kg * 0.34);
+        document.getElementById('sim-weekend').checked = false;
+      } else if (mode === 'S39') {
+        document.getElementById('sim-vol').value = 42;
+        document.getElementById('sim-mass').value = Math.round(c.live_state.target_payload_kg * 0.38);
+        document.getElementById('sim-weekend').checked = true;
+      } else {
+        document.getElementById('sim-vol').value = 94;
+        document.getElementById('sim-mass').value = Math.round(c.live_state.target_payload_kg * 0.94);
+        document.getElementById('sim-weekend').checked = false;
+      }
+      runPickupSim();
+    }
+
+    async function runPickupSim() {
+      const c = STATE.selectedDevice;
+      if (!c) return;
+      const vol = parseFloat(document.getElementById('sim-vol').value);
+      const mass = parseFloat(document.getElementById('sim-mass').value);
+      const lead = parseFloat(document.getElementById('sim-lead').value);
+      const wk = document.getElementById('sim-weekend').checked;
+      document.getElementById('sim-vol-val').textContent = `${vol}%`;
+      document.getElementById('sim-mass-val').textContent = `${mass} kg`;
+      document.getElementById('sim-lead-val').textContent = `${lead}h`;
+
+      const res = await fetch(`/api/compactors/${c.device_id}/simulate_pickup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ volume_fill_pct: vol, current_mass_kg: mass, operator_lead_hours: lead, hourly_inflow_kg: 26.0, is_pre_weekend: wk })
+      }).then(r => r.json());
+
+      const titleEl = document.getElementById('sim-verdict-title');
+      titleEl.textContent = res.headline;
+      titleEl.className = res.verdict === 'ORDER_PICKUP_NOW' ? 'text-sm font-bold text-emerald-400' : 'text-sm font-bold text-amber-400';
+      document.getElementById('sim-verdict-desc').textContent = res.explanation;
+      document.getElementById('sim-saved-eur').textContent = res.avoided_premature_cost_eur > 0 ? `€${res.avoided_premature_cost_eur} saved` : 'Optimal Window';
+    }
+
+    function renderAccuracyTable() {
+      const curves = STATE.overview.accuracy_curve;
+      document.getElementById('accuracy-tbody').innerHTML = curves.map((r, idx) => `
+        <tr onclick="document.getElementById('acc-slider').value=${idx};updateAccuracyCard();" class="cursor-pointer hover:bg-slate-800/50 ${r.sigma_pct === 1.3 || r.sigma_pct === 4.0 ? 'bg-red-950/20 font-semibold' : ''}">
+          <td class="py-2 px-2 text-white">±${r.sigma_pct}%</td>
+          <td class="py-2 px-2 text-slate-300">${r.tier_name}</td>
+          <td class="py-2 px-2 text-right text-emerald-400">${r.within_100kg_pct}%</td>
+          <td class="py-2 px-2 text-right text-slate-200">${r.detects_10pct_overbilling_pct}%</td>
+          <td class="py-2 px-2 text-right text-amber-300">${r.false_alarm_pct}%</td>
+          <td class="py-2 px-2 text-right text-white">€${r.bom_eur}</td>
+        </tr>
+      `).join('');
+    }
+
+    function updateAccuracyCard() {
+      const idx = parseInt(document.getElementById('acc-slider').value);
+      const r = STATE.overview.accuracy_curve[idx];
+      if (!r) return;
+      document.getElementById('acc-slider-label').textContent = `±${r.sigma_pct}% 1σ (${r.tier_name})`;
+      document.getElementById('acc-within100').textContent = `${r.within_100kg_pct}%`;
+      document.getElementById('acc-detect10').textContent = `${r.detects_10pct_overbilling_pct}%`;
+      document.getElementById('acc-cpterr').textContent = `${r.median_cpt_err_pct}% / ${r.p95_cpt_err_pct}%`;
+      document.getElementById('acc-fp-bom').textContent = `${r.false_alarm_pct}% / €${r.bom_eur}`;
+    }
+
+    function renderAuditTable() {
+      const fam = document.getElementById('audit-filter').value;
+      const rows = STATE.auditRows.filter(r => fam === 'ALL' || r.anomaly_family === fam);
+      document.getElementById('audit-tbody').innerHTML = rows.map((r, i) => `
+        <tr onclick="showAuditProofById('${r.invoice_line_id}')" class="cursor-pointer hover:bg-slate-800/60">
+          <td class="py-2 px-2 text-white font-semibold">${r.invoice_line_id}</td>
+          <td class="py-2 px-2 text-slate-300">${r.operator_id} • ${r.contract_id}</td>
+          <td class="py-2 px-2 text-slate-300">${r.line_type}</td>
+          <td class="py-2 px-2"><span class="px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/30">${r.anomaly_family}</span></td>
+          <td class="py-2 px-2 text-right text-amber-300">€${r.billed_amount_eur.toFixed(2)}</td>
+          <td class="py-2 px-2 text-right text-emerald-400">€${r.expected_amount_eur.toFixed(2)}</td>
+          <td class="py-2 px-2 text-right font-bold text-red-400">+€${r.discrepancy_eur.toFixed(2)}</td>
+        </tr>
+      `).join('');
+    }
+
+    function showAuditProofById(lineId) {
+      const idx = STATE.auditRows.findIndex(x => x.invoice_line_id === lineId);
+      if (idx >= 0) showAuditProof(idx);
+    }
+
+    function showAuditProof(idx) {
+      const r = STATE.auditRows[idx];
+      if (!r) return;
+      document.getElementById('proof-badge').textContent = r.evidence_tag;
+      document.getElementById('proof-content').innerHTML = `
+        <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1.5 mono">
+          <div class="flex justify-between"><span class="text-slate-400">Invoice / Line:</span><span class="text-white font-bold">${r.invoice_id} / ${r.invoice_line_id}</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Customer / Operator:</span><span class="text-slate-200">${r.customer_id} / ${r.operator_id}</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Contract / Version:</span><span class="text-slate-200">${r.contract_id} (${r.contract_version_id})</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Collection / Job Ref:</span><span class="text-slate-200">${r.collection_id} (${r.operator_job_ref})</span></div>
+          <div class="flex justify-between"><span class="text-slate-400">Service Date:</span><span class="text-slate-200">${r.service_date}</span></div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-2">
+          <div class="text-slate-400 uppercase font-semibold text-[11px]">Cent-by-Cent Formula Comparison</div>
+          <div class="flex justify-between mono"><span>Billed on Invoice:</span><span class="text-amber-300 font-bold">${r.billed_qty} ${r.billed_unit} × €${r.billed_unit_price_eur} = €${r.billed_amount_eur.toFixed(2)}</span></div>
+          <div class="flex justify-between mono"><span>Contract Expected:</span><span class="text-emerald-400 font-bold">${r.expected_qty !== null ? r.expected_qty : 0} ${r.billed_unit} × €${r.expected_unit_price_eur !== null ? r.expected_unit_price_eur : 0} = €${r.expected_amount_eur.toFixed(2)}</span></div>
+          <div class="border-t border-slate-800 pt-2 flex justify-between mono text-sm">
+            <span class="text-slate-300 font-semibold">Verified Discrepancy:</span>
+            <span class="text-red-400 font-bold">+€${r.discrepancy_eur.toFixed(2)} (${r.anomaly_family})</span>
+          </div>
+        </div>
+        <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1 mono">
+          <div class="text-slate-400 uppercase font-semibold text-[11px] font-sans">Source Weight vs. Weighbridge Evidence</div>
+          <div class="flex justify-between"><span>SMART Source Weight:</span><span class="text-emerald-400">${r.source_device_kg !== null ? r.source_device_kg + ' kg' : 'No sensor on unit'}</span></div>
+          <div class="flex justify-between"><span>Operator Ticket Net:</span><span class="text-slate-200">${r.weighbridge_net_kg !== null ? r.weighbridge_net_kg + ' kg' : 'UNSHARED TICKET'}</span></div>
+          <div class="flex justify-between"><span>Ticket Share Lag:</span><span class="text-amber-300">${r.ticket_lag_days !== null ? r.ticket_lag_days + ' days' : 'Never Published'}</span></div>
+        </div>
+      `;
+    }
+
+    function renderScorecards() {
+      document.getElementById('scorecard-tbody').innerHTML = STATE.scorecards.map(s => `
+        <tr class="hover:bg-slate-800/40">
+          <td class="py-2.5 px-3 font-bold text-white">${s.operator_id} (${s.operator_name})</td>
+          <td class="py-2.5 px-3 text-slate-300">${s.regions.join(', ')}</td>
+          <td class="py-2.5 px-3 text-right ${s.on_time_pct < 80 ? 'text-amber-400 font-bold' : 'text-emerald-400'}">${s.on_time_pct}%</td>
+          <td class="py-2.5 px-3 text-right text-slate-300">${s.missed_visit_pct}%</td>
+          <td class="py-2.5 px-3 text-right text-slate-200">${s.median_order_to_lift_hours}h</td>
+          <td class="py-2.5 px-3 text-right ${s.ticket_shared_7d_pct < 50 ? 'text-red-400 font-bold' : 'text-emerald-400'}">${s.ticket_shared_7d_pct}%</td>
+          <td class="py-2.5 px-3 text-right ${s.median_share_lag_days === null || s.median_share_lag_days > 7 ? 'text-amber-400 font-bold' : 'text-slate-200'}">${s.median_share_lag_days !== null ? s.median_share_lag_days + 'd' : 'Unshared (0%)'}</td>
+          <td class="py-2.5 px-3 text-right ${s.billing_overcharge_pct > 2.5 ? 'text-red-400 font-bold' : 'text-slate-200'}">+${s.billing_overcharge_pct}%</td>
+          <td class="py-2.5 px-3 text-right text-cyan-400">${s.deconvolved_weight_bias_pct >= 0 ? '+' : ''}${s.deconvolved_weight_bias_pct}%</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderApprovalQueue() {
+      document.getElementById('approval-list').innerHTML = STATE.queue.map(item => {
+        const stColor = item.approval_status === 'APPROVED' ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                      : item.approval_status === 'DEFERRED' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                      : item.approval_status === 'REVERSED' ? 'bg-red-500/20 text-red-300 border-red-500/40'
+                      : 'bg-slate-800 text-slate-300 border-slate-700';
+        return `
+          <div class="p-3.5 rounded-lg bg-slate-950 border border-slate-800 space-y-2 text-xs">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-white mono">${item.proposal_id}</span>
+                <span class="text-slate-400">${item.customer_name} • ${item.contract_id} (${item.operator_id}, ${item.region_code})</span>
+              </div>
+              <span class="px-2 py-0.5 rounded border text-[10px] font-semibold mono ${stColor}">${item.approval_status}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${item.recommended_actions.map(a => `<span class="px-2 py-0.5 rounded bg-red-500/20 border border-red-500/30 text-red-300 mono text-[11px] font-semibold">${a}</span>`).join('')}
+            </div>
+            <p class="text-slate-300 leading-relaxed">${item.evidence_summary}</p>
+            <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-900">
+              <span class="text-[11px] text-slate-500">${item.reversal_path}</span>
+              <div class="flex gap-2">
+                <button onclick="decideProposal('${item.proposal_id}', 'APPROVED')" class="px-2.5 py-1 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">Approve</button>
+                <button onclick="decideProposal('${item.proposal_id}', 'DEFERRED')" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">Defer</button>
+                <button onclick="decideProposal('${item.proposal_id}', 'REVERSED')" class="px-2.5 py-1 rounded bg-red-950 hover:bg-red-900 text-red-200 border border-red-800">Reverse</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function decideProposal(id, decision) {
+      const res = await fetch(`/api/approval_queue/${id}/decide`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ decision, reviewer_name: 'Customer Fleet Manager', reviewer_note: `Human decision (${decision}) logged via SMART Cockpit.` })
+      }).then(r => r.json());
+      const idx = STATE.queue.findIndex(x => x.proposal_id === id);
+      if (idx >= 0) STATE.queue[idx] = res.updated_proposal;
+      renderApprovalQueue();
+    }
+
+    function renderPortfolioLevers() {
+      const levers = STATE.overview.portfolio_levers;
+      const maxVal = Math.max(...levers.map(l => l.identified_annual_eur), 1);
+      document.getElementById('lever-bars').innerHTML = levers.map(l => `
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <span class="text-slate-300 font-medium">${l.label}</span>
+            <span class="mono text-emerald-400 font-bold">€${l.realisable_annual_eur.toLocaleString()} <span class="text-slate-500 font-normal">/ €${l.identified_annual_eur.toLocaleString()} id.</span></span>
+          </div>
+          <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+            <div class="bg-epred h-full rounded-full" style="width: ${Math.round(100 * l.identified_annual_eur / maxVal)}%"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.addEventListener('DOMContentLoaded', initCockpit);
+  </script>
+</body>
+</html>

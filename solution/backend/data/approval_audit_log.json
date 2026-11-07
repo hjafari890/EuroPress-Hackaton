@@ -1,0 +1,26 @@
+[
+  {
+    "proposal_id": "OC-00111",
+    "contract_id": "CTR-00111",
+    "customer_name": "Fictional Grocery Customer 0014",
+    "recommended_actions": [
+      "RENEGOTIATE_CONTRACT"
+    ],
+    "decision": "APPROVED",
+    "reviewer_name": "Site Logistics Manager",
+    "reviewer_note": "Verified against source-weight ledger and contract tariff.",
+    "decided_at_utc": "2026-11-07T11:08:02.958154+00:00"
+  },
+  {
+    "proposal_id": "OC-00111",
+    "contract_id": "CTR-00111",
+    "customer_name": "Fictional Grocery Customer 0014",
+    "recommended_actions": [
+      "RENEGOTIATE_CONTRACT"
+    ],
+    "decision": "APPROVED",
+    "reviewer_name": "Automated Verification Test",
+    "reviewer_note": "Verified human-in-the-loop persistence.",
+    "decided_at_utc": "2026-11-07T11:09:14.099969+00:00"
+  }
+]

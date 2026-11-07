@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="100%" height="100%" font-family="Inter, Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B1120"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="steelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#475569"/>
+      <stop offset="100%" stop-color="#334155"/>
+    </linearGradient>
+    <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#DC2626"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+    <marker id="arrowRed" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#EF4444"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="760" rx="16" fill="url(#bgGrad)" stroke="#334155" stroke-width="2"/>
+
+  <!-- Header Banner -->
+  <rect x="24" y="20" width="1152" height="58" rx="10" fill="#0F172A" stroke="#DC2626" stroke-width="1.5"/>
+  <circle cx="52" cy="49" r="12" fill="#DC2626"/>
+  <text x="52" y="54" fill="#FFFFFF" font-size="14" font-weight="bold" text-anchor="middle">E</text>
+  <text x="76" y="45" fill="#F8FAFC" font-size="18" font-weight="bold">EUROPRESS SMART-WEIGHT — UNIVERSAL 2-TIER SOURCE WEIGHING ARCHITECTURE</text>
+  <text x="76" y="65" fill="#94A3B8" font-size="12">Part 1 Engineering Blueprint: Zero-Modification Retrofit for COMBI (≤22 m³), DUO (≤30 m³ Detachable Container), and Balers</text>
+
+  <!-- ========================================== -->
+  <!-- PANEL 1: COMBI MOBILE COMPACTOR (LEFT)     -->
+  <!-- ========================================== -->
+  <rect x="24" y="92" width="564" height="410" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <rect x="24" y="92" width="564" height="38" rx="12" fill="#1E293B"/>
+  <text x="42" y="116" fill="#F8FAFC" font-size="15" font-weight="bold">A. COMBI MONOBLOCK COMPACTOR (≤22 m³ — Press &amp; Container Joined)</text>
+  <rect x="462" y="100" width="112" height="22" rx="6" fill="#DC2626"/>
+  <text x="518" y="115" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">ONBOARD PLC</text>
+
+  <!-- Ground Line -->
+  <line x1="48" y1="365" x2="560" y2="365" stroke="#64748B" stroke-width="3" stroke-dasharray="8,4"/>
+  <text x="555" y="382" fill="#64748B" font-size="11" text-anchor="end">Loading Bay Slab (Slope θ Compensated by IMU)</text>
+
+  <!-- DIN 30722 Front Hook -->
+  <path d="M 85 280 L 62 280 L 62 225 Q 62 210 75 210" fill="none" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <text x="48" y="202" fill="#94A3B8" font-size="10">DIN 30722 Hook</text>
+
+  <!-- Press Section (Front) -->
+  <rect x="85" y="210" width="130" height="125" rx="4" fill="url(#redGrad)" stroke="#F87171" stroke-width="1.5"/>
+  <text x="150" y="232" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle">PRESS UNIT</text>
+  <!-- Hydraulic Cylinder & Ram -->
+  <rect x="100" y="262" width="75" height="22" rx="3" fill="#1E293B" stroke="#CBD5E1" stroke-width="1.5"/>
+  <line x1="175" y1="273" x2="230" y2="273" stroke="#E2E8F0" stroke-width="6"/>
+  <polygon points="230,248 230,298 242,292 242,254" fill="#F59E0B"/>
+  <text x="145" y="302" fill="#FDE68A" font-size="10" text-anchor="middle">Hydraulic P(t) × Stroke</text>
+
+  <!-- Joined Container Section -->
+  <path d="M 215 175 L 510 175 L 535 335 L 215 335 Z" fill="url(#steelGrad)" stroke="#94A3B8" stroke-width="2"/>
+  <text x="368" y="220" fill="#F8FAFC" font-size="13" font-weight="bold" text-anchor="middle">JOINED CONTAINER (Up to 22 m³)</text>
+  <text x="368" y="240" fill="#CBD5E1" font-size="11" text-anchor="middle">Waste Mass m_true · g + Dynamic C.o.G. Shift</text>
+  <!-- Gravity Vector -->
+  <line x1="368" y1="250" x2="368" y2="305" stroke="#38BDF8" stroke-width="3" marker-end="url(#arrowCyan)"/>
+  <text x="380" y="285" fill="#38BDF8" font-size="12" font-weight="bold">W = (m_tare + m_waste)·g</text>
+
+  <!-- Subframe Runner INP/UNP -->
+  <rect x="85" y="335" width="445" height="10" fill="#1E293B" stroke="#64748B" stroke-width="1"/>
+
+  <!-- Front Support Leg + Sensor S1 -->
+  <rect x="105" y="345" width="24" height="20" rx="3" fill="#10B981" stroke="#A7F3D0" stroke-width="2"/>
+  <line x1="117" y1="365" x2="117" y2="335" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <circle cx="117" cy="355" r="5" fill="#FFFFFF"/>
+
+  <!-- Rear Roll-Off Roller + Shear Pin S2 -->
+  <circle cx="502" cy="352" r="14" fill="#334155" stroke="#94A3B8" stroke-width="3"/>
+  <circle cx="502" cy="352" r="6" fill="#EF4444" stroke="#FECACA" stroke-width="2"/>
+  <line x1="502" y1="365" x2="502" y2="332" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+
+  <!-- Smart PLC & Edge Box on COMBI -->
+  <rect x="96" y="168" width="108" height="34" rx="5" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="150" y="183" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">SMART PLC + IMU</text>
+  <text x="150" y="196" fill="#E2E8F0" font-size="9" text-anchor="middle">€18 RS-485 Node</text>
+
+  <!-- Callout Box COMBI -->
+  <rect x="42" y="394" width="528" height="94" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+  <circle cx="62" cy="414" r="7" fill="#EF4444"/>
+  <text x="76" y="418" fill="#F8FAFC" font-size="12" font-weight="bold">Rear Roller Axle (2× Ø45mm Double-Shear Load Pins, €42/ea):</text>
+  <text x="76" y="434" fill="#CBD5E1" font-size="11">Drop-in replacement for OEM steel roller pins. Shielded inside bracket from snow &amp; hooklift shock.</text>
+  <circle cx="62" cy="454" r="7" fill="#10B981"/>
+  <text x="76" y="458" fill="#F8FAFC" font-size="12" font-weight="bold">Front Support Feet (Tier 2: 2× Elastomer Load Pucks €38/ea | Tier 1: Bolt-On Strain €18/ea):</text>
+  <text x="76" y="474" fill="#CBD5E1" font-size="11">Exact vertical equilibrium: W_total = (F_front,L + F_front,R + F_rear,L + F_rear,R) / cos(θ_IMU).</text>
+
+  <!-- ========================================== -->
+  <!-- PANEL 2: DUO STATIONARY COMPACTOR (RIGHT)  -->
+  <!-- ========================================== -->
+  <rect x="612" y="92" width="564" height="410" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <rect x="612" y="92" width="564" height="38" rx="12" fill="#1E293B"/>
+  <text x="630" y="116" fill="#F8FAFC" font-size="15" font-weight="bold">B. DUO STATIONARY COMPACTOR (≤30 m³ — Detachable Container)</text>
+  <rect x="1028" y="100" width="134" height="22" rx="6" fill="#0284C7"/>
+  <text x="1095" y="115" fill="#FFFFFF" font-size="11" font-weight="bold" text-anchor="middle">0 WIRES ON BOX!</text>
+
+  <!-- Ground Line -->
+  <line x1="636" y1="365" x2="1152" y2="365" stroke="#64748B" stroke-width="3" stroke-dasharray="8,4"/>
+
+  <!-- Stationary Press Anchored to Ground -->
+  <rect x="660" y="210" width="130" height="155" rx="4" fill="url(#redGrad)" stroke="#F87171" stroke-width="1.5"/>
+  <text x="725" y="232" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle">STATIONARY</text>
+  <text x="725" y="247" fill="#FFFFFF" font-size="12" font-weight="bold" text-anchor="middle">DUO PRESS</text>
+  <text x="725" y="352" fill="#FECACA" font-size="10" text-anchor="middle">Anchored to Concrete</text>
+
+  <!-- SMART PLC on Stationary Press -->
+  <rect x="670" y="168" width="110" height="34" rx="5" fill="#0F172A" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="725" y="183" fill="#38BDF8" font-size="10" font-weight="bold" text-anchor="middle">STATIONARY PLC</text>
+  <text x="725" y="196" fill="#E2E8F0" font-size="9" text-anchor="middle">400V + LTE-M On-Site</text>
+
+  <!-- Detachable Container -->
+  <path d="M 804 165 L 1118 165 L 1140 335 L 804 335 Z" fill="url(#steelGrad)" stroke="#94A3B8" stroke-width="2"/>
+  <text x="965" y="212" fill="#F8FAFC" font-size="13" font-weight="bold" text-anchor="middle">DETACHABLE DUMB CONTAINER (Up to 30 m³)</text>
+  <text x="965" y="232" fill="#38BDF8" font-size="11" font-weight="bold" text-anchor="middle">Swapped by Any Hauler Truck — Zero Electronics Needed on Box</text>
+
+  <!-- Locking Hook Clamp Bridging -->
+  <line x1="785" y1="305" x2="818" y2="305" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="790" cy="305" r="8" fill="#EF4444" stroke="#FECACA" stroke-width="2"/>
+  <line x1="790" y1="335" x2="790" y2="275" stroke="#EF4444" stroke-width="2.5" marker-end="url(#arrowRed)"/>
+  <text x="852" y="298" fill="#FDE68A" font-size="10" font-weight="bold">Clamp Shear Pin (F_hook,z)</text>
+  <text x="852" y="312" fill="#FCD34D" font-size="9">Captures 15–30% bridged front load!</text>
+
+  <!-- Stationary Rear Wheel-Pocket Scale Pad -->
+  <circle cx="1102" cy="347" r="13" fill="#334155" stroke="#94A3B8" stroke-width="3"/>
+  <rect x="1072" y="356" width="62" height="11" rx="3" fill="#10B981" stroke="#A7F3D0" stroke-width="2"/>
+  <line x1="1102" y1="368" x2="1102" y2="330" stroke="#10B981" stroke-width="2.5" marker-end="url(#arrowGreen)"/>
+  <text x="1045" y="348" fill="#A7F3D0" font-size="10" font-weight="bold" text-anchor="end">Stationary Guide-Rail Pad</text>
+
+  <!-- Callout Box DUO -->
+  <rect x="630" y="394" width="528" height="94" rx="8" fill="#1E293B" stroke="#475569" stroke-width="1"/>
+  <circle cx="650" cy="414" r="7" fill="#EF4444"/>
+  <text x="664" y="418" fill="#F8FAFC" font-size="12" font-weight="bold">Key Insight — Solving DUO Clamp Force Bridging (2× Hook Clevis Shear Pins, €38/ea):</text>
+  <text x="664" y="434" fill="#CBD5E1" font-size="11">Tight ratchet/hydraulic clamps hang 15–30% of front container weight onto the stationary press.</text>
+  <circle cx="650" cy="454" r="7" fill="#10B981"/>
+  <text x="664" y="458" fill="#F8FAFC" font-size="12" font-weight="bold">Stationary Rear Guide-Rail Pads (2× IP68 Low-Profile Shear-Beam Pads, €52/ea):</text>
+  <text x="664" y="474" fill="#CBD5E1" font-size="11">100% of wiring stays on the stationary DUO press! Weighs ANY swapped pool container: W = F_hooks,z + F_pads,z.</text>
+
+  <!-- ========================================== -->
+  <!-- PANEL 3: EDGE SIGNAL FUSION & CALIBRATION  -->
+  <!-- ========================================== -->
+  <rect x="24" y="518" width="1152" height="220" rx="12" fill="#0F172A" stroke="#334155" stroke-width="1.5"/>
+  <rect x="24" y="518" width="1152" height="36" rx="12" fill="#1E293B"/>
+  <text x="42" y="541" fill="#F8FAFC" font-size="14" font-weight="bold">C. SMART-WEIGHT EDGE CONDITIONING, SELF-CALIBRATION &amp; PRODUCT LINE COVERAGE (COMBI + DUO + BALERS)</text>
+
+  <!-- Step 1 Box -->
+  <rect x="42" y="568" width="262" height="152" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="1.5"/>
+  <text x="58" y="590" fill="#38BDF8" font-size="13" font-weight="bold">1. €18 RS-485 Edge Node</text>
+  <text x="58" y="610" fill="#E2E8F0" font-size="11">• 4-Ch 24-bit ΣΔ ADC (ADS1234)</text>
+  <text x="58" y="628" fill="#E2E8F0" font-size="11">• €3 3-Axis MEMS IMU (Tilt cos θ +</text>
+  <text x="68" y="644" fill="#CBD5E1" font-size="11">Hooklift Lift-Off Vibration Signature)</text>
+  <text x="58" y="662" fill="#E2E8F0" font-size="11">• NTC Thermal Drift Compensation</text>
+  <text x="58" y="680" fill="#E2E8F0" font-size="11">• Plugs into existing SMART PLC</text>
+  <text x="68" y="696" fill="#10B981" font-size="11" font-weight="bold">(0 new SIM / 0 new modem / 0 PSU)</text>
+
+  <!-- Arrow 1->2 -->
+  <line x1="304" y1="644" x2="328" y2="644" stroke="#38BDF8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <!-- Step 2 Box -->
+  <rect x="332" y="568" width="272" height="152" rx="8" fill="#1E293B" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="348" y="590" fill="#F59E0B" font-size="13" font-weight="bold">2. Physics Gate &amp; Density Fusion</text>
+  <text x="348" y="610" fill="#E2E8F0" font-size="11">• Quiescent Sampling Gate: Samples</text>
+  <text x="358" y="626" fill="#CBD5E1" font-size="11">only when ram is IDLE ≥ 60s (blocks</text>
+  <text x="358" y="642" fill="#CBD5E1" font-size="11">35–40 t pressing shock spikes!)</text>
+  <text x="348" y="662" fill="#E2E8F0" font-size="11">• Live Bulk Density ρ = m / (V·fill):</text>
+  <text x="358" y="678" fill="#FDE68A" font-size="11" font-weight="bold">Catches S40 Cardboard Bridging</text>
+  <text x="358" y="694" fill="#FDE68A" font-size="11" font-weight="bold">(92% fill but only 800 kg mass!)</text>
+
+  <!-- Arrow 2->3 -->
+  <line x1="604" y1="644" x2="628" y2="644" stroke="#38BDF8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <!-- Step 3 Box -->
+  <rect x="632" y="568" width="268" height="152" rx="8" fill="#1E293B" stroke="#10B981" stroke-width="1.5"/>
+  <text x="648" y="590" fill="#10B981" font-size="13" font-weight="bold">3. 2-Stage Auto-Calibration</text>
+  <text x="648" y="610" fill="#E2E8F0" font-size="11">• Stage A (Every Lift): IMU detects</text>
+  <text x="658" y="626" fill="#CBD5E1" font-size="11">empty return → logs m_after tare</text>
+  <text x="658" y="642" fill="#CBD5E1" font-size="11">(catches S22 winter frozen residual</text>
+  <text x="658" y="658" fill="#CBD5E1" font-size="11">waste &amp; zeroes snow/ice drift!)</text>
+  <text x="648" y="678" fill="#E2E8F0" font-size="11">• Stage B (Cloud Bipartite Kalman):</text>
+  <text x="658" y="694" fill="#A7F3D0" font-size="11" font-weight="bold">Separates Sensor Drift vs Truck Tare</text>
+
+  <!-- Arrow 3->4 -->
+  <line x1="900" y1="644" x2="924" y2="644" stroke="#38BDF8" stroke-width="2.5" marker-end="url(#arrowCyan)"/>
+
+  <!-- Step 4 Box -->
+  <rect x="928" y="568" width="230" height="152" rx="8" fill="#1E293B" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="944" y="590" fill="#F87171" font-size="13" font-weight="bold">4. 2-Tier Modular Line</text>
+  <text x="944" y="612" fill="#F8FAFC" font-size="11" font-weight="bold">• Tier 1 Lite (€74 BOM):</text>
+  <text x="954" y="628" fill="#CBD5E1" font-size="10">Bolt-on strain + IMU + Hydraulic P</text>
+  <text x="954" y="642" fill="#CBD5E1" font-size="10">±4.5% → Stops Premature Hauls</text>
+  <text x="944" y="664" fill="#F8FAFC" font-size="11" font-weight="bold">• Tier 2 Verify (€192 BOM):</text>
+  <text x="954" y="680" fill="#CBD5E1" font-size="10">Shear-Pin (COMBI) / Pad+Pin (DUO)</text>
+  <text x="954" y="694" fill="#10B981" font-size="10" font-weight="bold">±2.6% (≤±100 kg on 3t) → Audit</text>
+</svg>
