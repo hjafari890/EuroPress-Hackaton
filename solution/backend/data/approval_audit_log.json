@@ -22,5 +22,29 @@
     "reviewer_name": "Automated Verification Test",
     "reviewer_note": "Verified human-in-the-loop persistence.",
     "decided_at_utc": "2026-11-07T11:09:14.099969+00:00"
+  },
+  {
+    "proposal_id": "OC-00111",
+    "contract_id": "CTR-00111",
+    "customer_name": "Fictional Grocery Customer 0014",
+    "recommended_actions": [
+      "RENEGOTIATE_CONTRACT"
+    ],
+    "decision": "DEFERRED",
+    "reviewer_name": "Customer Fleet Manager",
+    "reviewer_note": "Human decision (DEFERRED) logged via SMART Cockpit.",
+    "decided_at_utc": "2026-11-07T11:24:33.681007+00:00"
+  },
+  {
+    "proposal_id": "OC-00386",
+    "contract_id": "CTR-00386",
+    "customer_name": "Fictional Grocery Customer 0045",
+    "recommended_actions": [
+      "TENDER_OR_SWITCH_OPERATOR"
+    ],
+    "decision": "DEFERRED",
+    "reviewer_name": "Customer Fleet Manager",
+    "reviewer_note": "Human decision (DEFERRED) logged via SMART Cockpit.",
+    "decided_at_utc": "2026-11-07T11:24:35.463440+00:00"
   }
 ]
