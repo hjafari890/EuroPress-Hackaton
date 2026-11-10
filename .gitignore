@@ -11,3 +11,18 @@ Thumbs.db
 
 # Ignore redundant 97.3 MB raw zip archive (the extracted starter kit & dataset are committed)
 provided data from company/*.zip
+
+# Ignore nested teammate repo clone (link provided in 06_Partner_Repositories/README.md)
+06_Partner_Repositories/europress_repo/
+
+# Do not push video files to GitHub
+*.mp4
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
